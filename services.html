@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services | Powder Coating® General Contracting — Abu Dhabi</title>
+  <meta name="description" content="Industrial powder coating, sandblasting (Sa 2.5), steel structure coating, surface preparation, and industrial painting. I-CAD Musaffah, Abu Dhabi." />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) { animation: fade-out 0.3s ease; }
+    ::view-transition-new(root) { animation: fade-in  0.3s ease; }
+    @keyframes fade-out { to   { opacity: 0; transform: translateY(-10px); } }
+    @keyframes fade-in  { from { opacity: 0; transform: translateY(10px);  } }
+
+    /* Service detail cards */
+    .svc-block { padding: 80px 0; }
+    .svc-block:nth-child(even) { background: var(--bg-card); }
+    .svc-header { margin-bottom: 3rem; max-width: 70ch; }
+    .svc-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      color: var(--primary-light);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+    .spec-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+    .spec-table td:last-child {
+      text-align: right;
+      font-family: var(--font-mono);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .info-card {
+      background: var(--bg-glass-light);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      transition: border-color var(--transition-smooth), transform var(--transition-smooth);
+    }
+    .info-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+    }
+    .info-card-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--primary-light);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .bullet-list li {
+      padding: 6px 0;
+      padding-left: 1.4rem;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      position: relative;
+    }
+    .bullet-list li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 6px; height: 6px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    .flow-step {
+      display: flex;
+      gap: 1.2rem;
+      padding: 1.5rem;
+      background: var(--bg-glass-light);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      margin-bottom: 1rem;
+      transition: border-color 0.3s;
+    }
+    .flow-step:hover { border-color: var(--primary); }
+    .flow-num {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--primary-light);
+      min-width: 80px;
+      font-size: 0.85rem;
+      padding-top: 2px;
+    }
+    .color-picker-area {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+      margin-top: 2rem;
+    }
+    @media (max-width: 768px) { .color-picker-area { grid-template-columns: 1fr; } }
+    .color-preview {
+      background: var(--bg-glass-light);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .color-preview-surface {
+      height: 220px;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+    }
+    .color-preview-reflection {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(to top, rgba(255,255,255,0.08), transparent);
+    }
+    .color-preview-info {
+      padding: 1.4rem;
+      background: var(--bg-card);
+    }
+    #colorName { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+    #colorCode { color: var(--text-muted); font-family: var(--font-mono); font-size: 0.85rem; }
+    #colorSwatches { display: flex; flex-wrap: wrap; gap: 10px; }
+    .svc-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <img src="logo.png" alt="PC Logo" class="preloader-logo" />
+    <div class="preloader-bar"><div class="preloader-progress" id="preloaderProgress"></div></div>
+    <span class="preloader-text">Loading…</span>
+  </div>
+</div>
+
+<nav class="main-nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="logo.png" alt="Powder Coating® Logo" /></a>
+    <div class="nav-links">
+      <a href="index.html"    class="nav-link">Home</a>
+      <a href="about.html"    class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="gallery.html"  class="nav-link">Gallery</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </div>
+    <a href="https://wa.me/+971569715354" target="_blank" class="nav-cta">
+      <span>Get A Quote</span><i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <div class="mobile-menu-content">
+    <a href="index.html"    class="mobile-link">Home</a>
+    <a href="about.html"    class="mobile-link">About</a>
+    <a href="services.html" class="mobile-link">Services</a>
+    <a href="gallery.html"  class="mobile-link">Gallery</a>
+    <a href="contact.html"  class="mobile-link">Contact</a>
+    <a href="https://wa.me/+971569715354" target="_blank" class="mobile-cta">Get A Quote <i class="fa-brands fa-whatsapp"></i></a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="container">
+    <nav class="breadcrumb"><a href="index.html">Home</a> / <span>Services</span></nav>
+    <h1 class="page-hero-title">Our Services</h1>
+    <p class="page-hero-subtitle">Engineered surface protection — from Sa 2.5 blasting to certified powder coating.</p>
+  </div>
+</div>
+
+<!-- ═══ SERVICE 01: POWDER COATING ═══ -->
+<div class="svc-block">
+  <div class="container">
+    <div class="svc-header" data-aos="fade-up">
+      <span class="svc-num">01 · Powder Coating®</span>
+      <h2 class="section-heading">Electrostatic perfection. Oven-cured toughness.</h2>
+      <p style="color: var(--text-secondary); font-size: 1.05rem; margin-top: 0.8rem;">Our 6-stage powder coating line handles everything from small components to 6.5 × 1.7 × 3 m structures — applying epoxy, polyester, or hybrid powder via electrostatic spray, then curing to a seamless, chemically bonded film.</p>
+    </div>
+
+    <div class="svc-cards-grid" data-aos="fade-up">
+      <div class="info-card">
+        <span class="info-card-label">Process Steps</span>
+        <ul class="bullet-list">
+          <li>Chemical pre-treatment</li>
+          <li>Rinsing</li>
+          <li>Oven drying</li>
+          <li>Electrostatic powder application</li>
+          <li>Oven curing</li>
+          <li>Final cooling &amp; inspection</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <span class="info-card-label">Powders Available</span>
+        <ul class="bullet-list">
+          <li><strong>Epoxy</strong> — chemical resistance, indoor use</li>
+          <li><strong>Polyester</strong> — UV stability, outdoor exposure</li>
+          <li><strong>Epoxy-Polyester Hybrid</strong> — balanced durability &amp; finish</li>
+          <li>National Paints PE &amp; PA 1000 Series (certified)</li>
+          <li>Custom RAL colors on request</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <span class="info-card-label">Component Capacity</span>
+        <table class="spec-table">
+          <tr><td>Small components</td><td>120–180 m²/day</td></tr>
+          <tr><td>Medium pipes 1.5″</td><td>~75 m²/day</td></tr>
+          <tr><td>Large sheets 2.2×2.5</td><td>247–250 m²/day</td></tr>
+          <tr><td>Large structures</td><td>300–350 m²/day</td></tr>
+          <tr><td>Max component size</td><td>6.5 × 1.7 × 3 m</td></tr>
+        </table>
+      </div>
+      <div class="info-card">
+        <span class="info-card-label">QC Standards</span>
+        <ul class="bullet-list">
+          <li><strong>ASTM D3359</strong> — adhesion (cross-cut)</li>
+          <li><strong>ASTM D7091</strong> — dry-film thickness</li>
+          <li><strong>ASTM B117</strong> — salt-spray resistance</li>
+          <li>Impact resistance test</li>
+          <li>Full batch documentation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SERVICE 02: SANDBLASTING ═══ -->
+<div class="svc-block">
+  <div class="container">
+    <div class="svc-header" data-aos="fade-up">
+      <span class="svc-num">02 · Industrial Sandblasting</span>
+      <h2 class="section-heading">Surface profile, properly engineered.</h2>
+      <p style="color: var(--text-secondary); font-size: 1.05rem; margin-top: 0.8rem;">Steel-grit blasting for heavy substrates, fine abrasive blasting for detail work — measured to Sa 2.5 cleanliness with a 50–75 μm anchor profile in a 24 m² dedicated blast booth with ~3 tons/day capacity.</p>
+    </div>
+
+    <div class="svc-cards-grid" data-aos="fade-up">
+      <div class="info-card">
+        <span class="info-card-label">Standards Achieved</span>
+        <ul class="bullet-list">
+          <li>Cleanliness: Sa 2.5 (ISO 8501-1)</li>
+          <li>Anchor profile: 50–75 microns</li>
+          <li>Booth: 24 m² · 6×4×3 m clearance</li>
+          <li>Daily output: ~3 tons of steel</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <span class="info-card-label">Equipment On-Site</span>
+        <ul class="bullet-list">
+          <li>Automatic blasting machines</li>
+          <li>Manual blasting chambers</li>
+          <li>Steel-grit recovery &amp; dust collection</li>
+          <li>Diesel air compressor + receiver tank</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <span class="info-card-label">Available Methods</span>
+        <ul class="bullet-list">
+          <li>Abrasive sandblasting (steel grit)</li>
+          <li>Solvent cleaning (thinner wash)</li>
+          <li>Component preheating</li>
+          <li>Manual sanding &amp; grinding</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SERVICE 03: STEEL STRUCTURES ═══ -->
+<div class="svc-block">
+  <div class="container">
+    <div class="svc-header" data-aos="fade-up">
+      <span class="svc-num">03 · Steel Structure Coating</span>
+      <h2 class="section-heading">Multi-layer protection for fabricated steel.</h2>
+      <p style="color: var(--text-secondary); font-size: 1.05rem; margin-top: 0.8rem;">Towers, frames, skids, cable trays, brackets, and enclosures — coated with primer + topcoat systems specified for the corrosion category your project demands.</p>
+    </div>
+
+    <div class="svc-cards-grid" data-aos="fade-up">
+      <div class="info-card">
+        <span class="info-card-label">Sectors Served</span>
+        <ul class="bullet-list">
+          <li>Power &amp; utility (TAQA/ADDC approved)</li>
+          <li>Oil &amp; gas</li>
+          <li>Infrastructure &amp; civil</li>
+          <li>Steel fabrication yards</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <span class="info-card-label">Typical Coated Items</span>
+        <ul class="bullet-list">
+          <li>Steel structures &amp; towers</li>
+          <li>Electrical enclosures &amp; panels</li>
+          <li>Cable trays &amp; conduits</li>
+          <li>Utility &amp; mechanical equipment</li>
+          <li>Pipe supports &amp; brackets</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <span class="info-card-label">Testing to ASTM</span>
+        <ul class="bullet-list">
+          <li><strong>D3359</strong> — adhesion</li>
+          <li><strong>D7091</strong> — coating thickness</li>
+          <li><strong>B117</strong> — salt spray</li>
+          <li>Impact resistance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SERVICE 04: SURFACE PREPARATION ═══ -->
+<div class="svc-block">
+  <div class="container">
+    <div class="svc-header" data-aos="fade-up">
+      <span class="svc-num">04 · Surface Preparation</span>
+      <h2 class="section-heading">No coating outlasts the surface beneath it.</h2>
+      <p style="color: var(--text-secondary); font-size: 1.05rem; margin-top: 0.8rem;">Documented prep at every stage — solvent cleaning, sanding, preheating, and pretreatment — verified before the first kilo of powder is sprayed.</p>
+    </div>
+
+    <div data-aos="fade-up">
+      <div class="flow-step"><div class="flow-num">01 / SA 2.5</div><div><h4>Cleanliness Target</h4><p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.9rem;">All visible mill scale, rust, and contamination removed. Only slight discolouration permitted per ISO 8501-1.</p></div></div>
+      <div class="flow-step"><div class="flow-num">02 / 50–75 μm</div><div><h4>Anchor Profile</h4><p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.9rem;">Profile depth tuned for adhesion of epoxy/polyester systems and resistance to under-film corrosion.</p></div></div>
+      <div class="flow-step"><div class="flow-num">03 / Pre-treat</div><div><h4>Chemical Pretreatment</h4><p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.9rem;">Phosphate or equivalent conversion in dedicated tanks, followed by rinsing and oven drying.</p></div></div>
+      <div class="flow-step"><div class="flow-num">04 / Inspect</div><div><h4>Pre-Coat Inspection</h4><p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.9rem;">Surface profile gauge, dust tape test, and visual sign-off before the powder line begins.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SERVICE 05: INDUSTRIAL PAINTING ═══ -->
+<div class="svc-block">
+  <div class="container">
+    <div class="svc-header" data-aos="fade-up">
+      <span class="svc-num">05 · Industrial Painting</span>
+      <h2 class="section-heading">Liquid coatings where powder isn't the answer.</h2>
+      <p style="color: var(--text-secondary); font-size: 1.05rem; margin-top: 0.8rem;">Epoxy, polyurethane, and specialty liquid paints for items requiring flexible coatings, heat resistance, or marine-grade protection.</p>
+    </div>
+    <div class="svc-cards-grid" data-aos="fade-up">
+      <div class="info-card"><span class="info-card-label">Coating Systems</span>
+        <ul class="bullet-list"><li>Epoxy primer + polyurethane topcoat</li><li>Anti-corrosion multi-layer systems</li><li>Heat-resistant paints (up to 600°C)</li><li>Marine-grade finishes</li><li>Intumescent fire-protection coating</li></ul>
+      </div>
+      <div class="info-card"><span class="info-card-label">Applications</span>
+        <ul class="bullet-list"><li>Offshore &amp; marine structures</li><li>High-temperature piping</li><li>Internal tank lining</li><li>Concrete &amp; masonry protection</li><li>Large items unsuitable for oven</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ COLOR PICKER ═══ -->
+<div style="padding: 80px 0; background: var(--bg-card);">
+  <div class="container">
+    <div class="section-header text-center" data-aos="fade-up">
+      <span class="section-tag">Color Selection</span>
+      <h2 class="section-heading">Explore Our Color Range</h2>
+      <p class="section-desc">50+ standard RAL colors plus custom matches. Click any swatch to preview on a coated surface.</p>
+    </div>
+    <div class="color-picker-area" data-aos="fade-up">
+      <div class="color-preview">
+        <div class="color-preview-surface" id="colorPreviewSurface">
+          <div class="color-preview-reflection"></div>
+        </div>
+        <div class="color-preview-info">
+          <h3 id="colorName">Crimson Red</h3>
+          <p id="colorCode">RAL 3002</p>
+        </div>
+      </div>
+      <div>
+        <p style="color: var(--text-secondary); margin-bottom: 1.2rem; font-size: 0.9rem;">Select a color to preview. Contact us for custom RAL matching.</p>
+        <div id="colorSwatches"></div>
+        <a href="contact.html" class="btn-primary" style="display: inline-flex; margin-top: 1.8rem;">
+          <span>Request Custom Color</span><i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div style="background: linear-gradient(135deg, var(--primary-dark), var(--primary)); padding: 60px 0; text-align: center;">
+  <div class="container">
+    <h2 style="font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800; margin-bottom: 1rem;">Have a project in mind?</h2>
+    <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Send us your drawings and requirements — we'll respond with a spec and quote within 24 hours.</p>
+    <a href="contact.html" class="btn-primary" style="background:#fff; color: var(--primary);">
+      <span>Request a Quote</span><i class="fas fa-arrow-right"></i>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="main-footer" id="mainFooter">
+  <div class="footer-top-section"><div class="container"><div class="footer-grid">
+    <div class="footer-col footer-about"><img src="logo.png" alt="" class="footer-logo" /><p>Industrial coating specialists — powder coating, sandblasting &amp; painting in Abu Dhabi.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Powder Coating®</a></li><li><a href="services.html">Sandblasting</a></li><li><a href="services.html">Steel Structures</a></li><li><a href="services.html">Industrial Painting</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4>
+      <div class="footer-contact-item"><i class="fas fa-location-dot"></i><a href="https://maps.app.goo.gl/DVZktcPEaXhX9c9H7" target="_blank">I-CAD Musaffah, Abu Dhabi</a></div>
+      <div class="footer-contact-item"><i class="fa-brands fa-whatsapp"></i><a href="https://wa.me/+971569715354" target="_blank">+971 56 971 5 354</a></div>
+      <div class="footer-contact-item"><i class="fas fa-phone"></i><a href="tel:+97125622877">+971 2 562 2 877</a></div>
+      <div class="footer-contact-item"><i class="fas fa-envelope"></i><a href="mailto:sales@powdercoating.ae">sales@powdercoating.ae</a></div>
+    </div>
+  </div></div></div>
+  <div class="footer-bottom"><div class="container"><span>© 2024 Powder Coating® General Contracting LLC.</span><div class="footer-socials"><a href="https://www.linkedin.com/company/powder-coating-mechanical-contracting/" target="_blank"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+</footer>
+
+<div class="floating-actions">
+  <a href="https://wa.me/+971569715354" target="_blank" class="fab-btn fab-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+  <a href="tel:+97125622877" class="fab-btn fab-phone"><i class="fas fa-phone"></i></a>
+  <a href="mailto:sales@powdercoating.ae" class="fab-btn fab-email"><i class="fas fa-envelope"></i></a>
+</div>
+<button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+<script src="app.js"></script>
+</body>
+</html>

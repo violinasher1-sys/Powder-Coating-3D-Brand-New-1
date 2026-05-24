@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Powder Coating® General Contracting — Abu Dhabi</title>
+  <meta name="description" content="Get a quote for industrial powder coating, sandblasting or painting. Based in I-CAD Musaffah, Abu Dhabi. Call +971 2 562 2 877." />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) { animation: fade-out 0.3s ease; }
+    ::view-transition-new(root) { animation: fade-in  0.3s ease; }
+    @keyframes fade-out { to   { opacity: 0; transform: translateY(-10px); } }
+    @keyframes fade-in  { from { opacity: 0; transform: translateY(10px);  } }
+
+    .contact-section { padding: 80px 0; }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .contact-card {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      padding: 1.4rem;
+      background: var(--bg-glass-light);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      margin-bottom: 1rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .contact-card:hover { border-color: var(--primary); transform: translateX(6px); }
+    .contact-card-icon {
+      min-width: 52px; height: 52px;
+      background: rgba(185,28,28,0.15);
+      border: 1px solid rgba(185,28,28,0.3);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      color: var(--primary-light);
+    }
+    .contact-card-info span {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 3px;
+    }
+    .contact-card-info a {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      transition: color 0.2s;
+    }
+    .contact-card-info a:hover { color: var(--primary-light); }
+    .contact-socials { display: flex; gap: 12px; margin-top: 1.5rem; }
+    .contact-socials a {
+      width: 44px; height: 44px;
+      background: var(--bg-glass-light);
+      border: 1px solid var(--border-subtle);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .contact-socials a:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    /* Form */
+    .contact-form { margin-top: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+    .form-group label { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--bg-glass-light);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 13px 16px;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: var(--font-primary);
+      transition: border-color 0.25s, box-shadow 0.25s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select { cursor: none; appearance: none; }
+    .form-group option { background: var(--bg-card); }
+
+    /* Map */
+    .map-section { position: relative; }
+    .map-section iframe { display: block; filter: grayscale(0.3) saturate(0.8); }
+
+    /* Hours card */
+    .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 1rem; }
+    .hours-row { display: flex; justify-content: space-between; font-size: 0.88rem; padding: 8px 0; border-bottom: 1px solid var(--border-subtle); }
+    .hours-row .day { color: var(--text-secondary); }
+    .hours-row .time { color: var(--text-primary); font-weight: 500; font-family: var(--font-mono); font-size: 0.82rem; }
+  </style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <img src="logo.png" alt="PC Logo" class="preloader-logo" />
+    <div class="preloader-bar"><div class="preloader-progress" id="preloaderProgress"></div></div>
+    <span class="preloader-text">Loading…</span>
+  </div>
+</div>
+
+<nav class="main-nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="logo.png" alt="Powder Coating® Logo" /></a>
+    <div class="nav-links">
+      <a href="index.html"    class="nav-link">Home</a>
+      <a href="about.html"    class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="gallery.html"  class="nav-link">Gallery</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </div>
+    <a href="https://wa.me/+971569715354" target="_blank" class="nav-cta">
+      <span>Get A Quote</span><i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <div class="mobile-menu-content">
+    <a href="index.html"    class="mobile-link">Home</a>
+    <a href="about.html"    class="mobile-link">About</a>
+    <a href="services.html" class="mobile-link">Services</a>
+    <a href="gallery.html"  class="mobile-link">Gallery</a>
+    <a href="contact.html"  class="mobile-link">Contact</a>
+    <a href="https://wa.me/+971569715354" target="_blank" class="mobile-cta">Get A Quote <i class="fa-brands fa-whatsapp"></i></a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="container">
+    <nav class="breadcrumb"><a href="index.html">Home</a> / <span>Contact</span></nav>
+    <h1 class="page-hero-title">Contact Us</h1>
+    <p class="page-hero-subtitle">Based in Musaffah, Abu Dhabi — serving the entire UAE. Get a quote within 24 hours.</p>
+  </div>
+</div>
+
+<!-- CONTACT SECTION -->
+<div class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- INFO COLUMN -->
+      <div data-aos="fade-right">
+        <span class="section-tag">Get in Touch</span>
+        <h2 class="section-heading" style="margin-top: 0.5rem;">We're Here to Help</h2>
+        <p style="color: var(--text-secondary); margin-top: 1rem; margin-bottom: 2rem;">Whether you need a quote, want to discuss a project spec, or need technical advice on coating systems — our team is ready.</p>
+
+        <div class="contact-card">
+          <div class="contact-card-icon"><i class="fas fa-phone-volume"></i></div>
+          <div class="contact-card-info">
+            <span>Call Us</span>
+            <a href="tel:+97125622877">+971 2 562 2 877</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div class="contact-card-info">
+            <span>WhatsApp</span>
+            <a href="https://wa.me/+971569715354" target="_blank">+971 56 971 5 354</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-card-info">
+            <span>Email Us</span>
+            <a href="mailto:sales@powdercoating.ae">sales@powdercoating.ae</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon"><i class="fas fa-location-dot"></i></div>
+          <div class="contact-card-info">
+            <span>Visit Us</span>
+            <a href="https://maps.app.goo.gl/DVZktcPEaXhX9c9H7" target="_blank">I-CAD Industrial Area, Musaffah, Abu Dhabi, UAE</a>
+          </div>
+        </div>
+
+        <!-- Business Hours -->
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-glass-light); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);">
+          <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-clock" style="color: var(--primary-light);"></i> Business Hours
+          </h4>
+          <div class="hours-row"><span class="day">Sunday – Thursday</span><span class="time">07:00 – 18:00</span></div>
+          <div class="hours-row"><span class="day">Friday</span><span class="time">07:00 – 12:00</span></div>
+          <div class="hours-row" style="border: none;"><span class="day">Saturday</span><span class="time">Closed</span></div>
+        </div>
+
+        <div class="contact-socials">
+          <a href="https://www.linkedin.com/company/powder-coating-mechanical-contracting/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://wa.me/+971569715354" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="mailto:sales@powdercoating.ae" title="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+
+      <!-- FORM COLUMN -->
+      <div data-aos="fade-left">
+        <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.5rem;">
+          <span class="section-tag">Request a Quote</span>
+          <h2 class="section-heading" style="margin-top: 0.5rem; font-size: 1.8rem;">Tell Us About Your Project</h2>
+          <p style="color: var(--text-secondary); margin-top: 0.5rem; margin-bottom: 2rem; font-size: 0.9rem;">Fill in the form and we'll respond with a specification and price within one business day.</p>
+
+          <form class="contact-form" id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="contactName">Full Name *</label>
+                <input type="text" id="contactName" placeholder="e.g. Ahmed Al Mansoori" required />
+              </div>
+              <div class="form-group">
+                <label for="contactCompany">Company</label>
+                <input type="text" id="contactCompany" placeholder="Company name" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="contactEmail">Email *</label>
+                <input type="email" id="contactEmail" placeholder="you@company.com" required />
+              </div>
+              <div class="form-group">
+                <label for="contactPhone">Phone / WhatsApp *</label>
+                <input type="tel" id="contactPhone" placeholder="+971 XX XXX XXXX" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="contactService">Service Required</label>
+              <select id="contactService">
+                <option value="">— Select a service —</option>
+                <option>Powder Coating®</option>
+                <option>Industrial Sandblasting</option>
+                <option>Steel Structure Coating</option>
+                <option>Surface Preparation</option>
+                <option>Industrial Painting</option>
+                <option>Multiple Services</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="contactQuantity">Approximate Quantity / Area</label>
+                <input type="text" id="contactQuantity" placeholder="e.g. 500 m² or 20 enclosures" />
+              </div>
+              <div class="form-group">
+                <label for="contactTimeline">Desired Timeline</label>
+                <input type="text" id="contactTimeline" placeholder="e.g. 2 weeks" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="contactMessage">Project Details *</label>
+              <textarea id="contactMessage" placeholder="Describe the substrate, dimensions, color (RAL), standards required, or any other relevant details…" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; font-size: 1rem; padding: 16px;">
+              <span>Send Enquiry</span>
+              <i class="fas fa-paper-plane"></i>
+            </button>
+            <p style="font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-top: 1rem;">We respond within 24 hours on business days.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAP -->
+<div class="map-section">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3477.370052295501!2d54.4824334!3d24.3350029!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e41ea6a9fbae3%3A0x62e63642a2328b92!2sPOWDER%20COATING%20GENERAL%20CONTRACTING%20LLC!5e0!3m2!1sen!2sae!4v1763715489522!5m2!1sen!2sae"
+    width="100%" height="480" style="border:0; display:block;" allowfullscreen="" loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade" title="Powder Coating® GC Location">
+  </iframe>
+</div>
+
+<!-- FAQ -->
+<div style="padding: 80px 0; background: var(--bg-card);">
+  <div class="container">
+    <div class="section-header text-center" data-aos="fade-up" style="margin-bottom: 3rem;">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-heading">Frequently Asked Questions</h2>
+    </div>
+    <div style="max-width: 780px; margin: 0 auto;" data-aos="fade-up">
+
+      <details style="background: var(--bg-glass-light); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.4rem; margin-bottom: 1rem; cursor: pointer; transition: border-color 0.3s;">
+        <summary style="font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          What is the maximum component size you can coat?
+          <i class="fas fa-chevron-down" style="color: var(--primary-light); font-size: 0.85rem;"></i>
+        </summary>
+        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7;">Our oven and handling system accommodates components up to 6.5 × 1.7 × 3 metres. For oversized items we offer on-site industrial painting as an alternative.</p>
+      </details>
+
+      <details style="background: var(--bg-glass-light); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.4rem; margin-bottom: 1rem; cursor: pointer;">
+        <summary style="font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          What sandblasting standard do you work to?
+          <i class="fas fa-chevron-down" style="color: var(--primary-light); font-size: 0.85rem;"></i>
+        </summary>
+        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7;">We blast to Sa 2.5 (ISO 8501-1) with a 50–75 μm anchor profile as standard. Sa 3 white-metal blast is available on request for aggressive environments.</p>
+      </details>
+
+      <details style="background: var(--bg-glass-light); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.4rem; margin-bottom: 1rem; cursor: pointer;">
+        <summary style="font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          Are you approved for ADDC / TAQA projects?
+          <i class="fas fa-chevron-down" style="color: var(--primary-light); font-size: 0.85rem;"></i>
+        </summary>
+        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7;">Yes. Powder Coating® General Contracting LLC is an approved applicator for TAQA (Abu Dhabi Distribution Company) and holds Civil Defence approval, making us compliant for utility and infrastructure projects across Abu Dhabi.</p>
+      </details>
+
+      <details style="background: var(--bg-glass-light); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.4rem; margin-bottom: 1rem; cursor: pointer;">
+        <summary style="font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          What is your typical turnaround time?
+          <i class="fas fa-chevron-down" style="color: var(--primary-light); font-size: 0.85rem;"></i>
+        </summary>
+        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7;">Standard turnaround is 3–5 working days depending on quantity and coating system. Rush jobs can be accommodated — contact us to discuss your schedule.</p>
+      </details>
+
+      <details style="background: var(--bg-glass-light); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.4rem; cursor: pointer;">
+        <summary style="font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          Do you provide QC documentation?
+          <i class="fas fa-chevron-down" style="color: var(--primary-light); font-size: 0.85rem;"></i>
+        </summary>
+        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7;">Yes. Every batch is accompanied by dry-film thickness readings (ASTM D7091), adhesion test results (D3359), and salt-spray reports (B117) on request. Full batch traceability is standard.</p>
+      </details>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="main-footer" id="mainFooter">
+  <div class="footer-top-section"><div class="container"><div class="footer-grid">
+    <div class="footer-col footer-about"><img src="logo.png" alt="" class="footer-logo" /><p>Powder Coating® General Contracting LLC — ISO-aligned industrial coating partner in Abu Dhabi.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Powder Coating®</a></li><li><a href="services.html">Sandblasting</a></li><li><a href="services.html">Steel Structures</a></li><li><a href="services.html">Industrial Painting</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4>
+      <div class="footer-contact-item"><i class="fas fa-location-dot"></i><a href="https://maps.app.goo.gl/DVZktcPEaXhX9c9H7" target="_blank">I-CAD Musaffah, Abu Dhabi</a></div>
+      <div class="footer-contact-item"><i class="fa-brands fa-whatsapp"></i><a href="https://wa.me/+971569715354" target="_blank">+971 56 971 5 354</a></div>
+      <div class="footer-contact-item"><i class="fas fa-phone"></i><a href="tel:+97125622877">+971 2 562 2 877</a></div>
+      <div class="footer-contact-item"><i class="fas fa-envelope"></i><a href="mailto:sales@powdercoating.ae">sales@powdercoating.ae</a></div>
+    </div>
+  </div></div></div>
+  <div class="footer-bottom"><div class="container"><span>© 2024 Powder Coating® General Contracting LLC.</span><div class="footer-socials"><a href="https://www.linkedin.com/company/powder-coating-mechanical-contracting/" target="_blank"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+</footer>
+
+<div class="floating-actions">
+  <a href="https://wa.me/+971569715354" target="_blank" class="fab-btn fab-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+  <a href="tel:+97125622877" class="fab-btn fab-phone"><i class="fas fa-phone"></i></a>
+  <a href="mailto:sales@powdercoating.ae" class="fab-btn fab-email"><i class="fas fa-envelope"></i></a>
+</div>
+<button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+<script src="app.js"></script>
+</body>
+</html>

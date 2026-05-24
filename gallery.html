@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery | Powder Coating® General Contracting — Abu Dhabi</title>
+  <meta name="description" content="Browse our latest powder coating, sandblasting, and industrial painting projects across Abu Dhabi and the UAE." />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) { animation: fade-out 0.3s ease; }
+    ::view-transition-new(root) { animation: fade-in  0.3s ease; }
+    @keyframes fade-out { to   { opacity: 0; transform: translateY(-10px); } }
+    @keyframes fade-in  { from { opacity: 0; transform: translateY(10px);  } }
+
+    .gallery-section { padding: 60px 0 100px; }
+    .gallery-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 2.5rem;
+      justify-content: center;
+    }
+    .filter-btn {
+      padding: 10px 22px;
+      border-radius: 999px;
+      background: var(--bg-glass-light);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: none;
+      transition: all 0.3s ease;
+      font-family: var(--font-primary);
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+    #galleryGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .gallery-item { transition: opacity 0.35s ease, transform 0.35s ease; }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      backdrop-filter: blur(12px);
+    }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox-inner {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform 0.3s;
+    }
+    .lightbox.open .lightbox-inner { transform: scale(1); }
+    .lightbox-icon {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 3rem;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 24px; right: 24px;
+      width: 44px; height: 44px;
+      background: var(--bg-glass-light);
+      border: 1px solid var(--border-subtle);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      cursor: none;
+      transition: all 0.2s;
+    }
+    .lightbox-close:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <img src="logo.png" alt="PC Logo" class="preloader-logo" />
+    <div class="preloader-bar"><div class="preloader-progress" id="preloaderProgress"></div></div>
+    <span class="preloader-text">Loading…</span>
+  </div>
+</div>
+
+<nav class="main-nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="logo.png" alt="Powder Coating® Logo" /></a>
+    <div class="nav-links">
+      <a href="index.html"    class="nav-link">Home</a>
+      <a href="about.html"    class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="gallery.html"  class="nav-link">Gallery</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </div>
+    <a href="https://wa.me/+971569715354" target="_blank" class="nav-cta">
+      <span>Get A Quote</span><i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <div class="mobile-menu-content">
+    <a href="index.html"    class="mobile-link">Home</a>
+    <a href="about.html"    class="mobile-link">About</a>
+    <a href="services.html" class="mobile-link">Services</a>
+    <a href="gallery.html"  class="mobile-link">Gallery</a>
+    <a href="contact.html"  class="mobile-link">Contact</a>
+    <a href="https://wa.me/+971569715354" target="_blank" class="mobile-cta">Get A Quote <i class="fa-brands fa-whatsapp"></i></a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="container">
+    <nav class="breadcrumb"><a href="index.html">Home</a> / <span>Gallery</span></nav>
+    <h1 class="page-hero-title">Our Gallery</h1>
+    <p class="page-hero-subtitle">Explore our latest projects — steel structures, enclosures, automotive and more.</p>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery-section">
+  <div class="container">
+    <div class="section-header text-center" data-aos="fade-up" style="margin-bottom: 2.5rem;">
+      <span class="section-tag">Our Work</span>
+      <h2 class="section-heading">Quality Finishes Across Industries</h2>
+      <p class="section-desc">Click any project card to view details. Filter by category below.</p>
+    </div>
+
+    <div class="gallery-filter" data-aos="fade-up">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="industrial">Industrial</button>
+      <button class="filter-btn" data-filter="automotive">Automotive</button>
+      <button class="filter-btn" data-filter="custom">Custom</button>
+      <button class="filter-btn" data-filter="decor">Architectural</button>
+    </div>
+
+    <div id="galleryGrid" data-aos="fade-up"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose"><i class="fas fa-times"></i></button>
+  <div class="lightbox-inner" id="lightboxInner">
+    <div class="lightbox-icon" id="lightboxIcon"></div>
+    <h3 id="lightboxTitle" style="font-size: 1.4rem; margin-bottom: 0.5rem;"></h3>
+    <p id="lightboxCat" style="color: var(--primary-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; font-family: var(--font-mono);"></p>
+    <p id="lightboxDesc" style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.5rem;"></p>
+    <a href="contact.html" class="btn-primary">
+      <span>Request Similar Work</span><i class="fas fa-arrow-right"></i>
+    </a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar" style="padding: 50px 0;">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-number"><span class="counter" data-target="500">0</span>+</div><div class="stat-label">Projects Completed</div></div>
+      <div class="stat-item"><div class="stat-number"><span class="counter" data-target="50">0</span>+</div><div class="stat-label">RAL Colors Available</div></div>
+      <div class="stat-item"><div class="stat-number"><span class="counter" data-target="20">0</span>+</div><div class="stat-label">Years of Experience</div></div>
+      <div class="stat-item"><div class="stat-number"><span class="counter" data-target="150">0</span>+</div><div class="stat-label">Happy Clients</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div style="background: linear-gradient(135deg, var(--primary-dark), var(--primary)); padding: 60px 0; text-align: center;">
+  <div class="container">
+    <h2 style="font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800; margin-bottom: 1rem;">Want us to coat your project?</h2>
+    <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Send your drawings or specs — we'll come back with a quote within 24 hours.</p>
+    <a href="contact.html" class="btn-primary" style="background:#fff; color: var(--primary);">
+      <span>Get a Quote</span><i class="fas fa-arrow-right"></i>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="main-footer" id="mainFooter">
+  <div class="footer-top-section"><div class="container"><div class="footer-grid">
+    <div class="footer-col footer-about"><img src="logo.png" alt="" class="footer-logo" /><p>Powder Coating® General Contracting LLC — Abu Dhabi's trusted industrial coating partner.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Powder Coating®</a></li><li><a href="services.html">Sandblasting</a></li><li><a href="services.html">Steel Structures</a></li><li><a href="services.html">Industrial Painting</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4>
+      <div class="footer-contact-item"><i class="fas fa-location-dot"></i><a href="https://maps.app.goo.gl/DVZktcPEaXhX9c9H7" target="_blank">I-CAD Musaffah, Abu Dhabi</a></div>
+      <div class="footer-contact-item"><i class="fa-brands fa-whatsapp"></i><a href="https://wa.me/+971569715354" target="_blank">+971 56 971 5 354</a></div>
+      <div class="footer-contact-item"><i class="fas fa-phone"></i><a href="tel:+97125622877">+971 2 562 2 877</a></div>
+      <div class="footer-contact-item"><i class="fas fa-envelope"></i><a href="mailto:sales@powdercoating.ae">sales@powdercoating.ae</a></div>
+    </div>
+  </div></div></div>
+  <div class="footer-bottom"><div class="container"><span>© 2024 Powder Coating® General Contracting LLC.</span><div class="footer-socials"><a href="https://www.linkedin.com/company/powder-coating-mechanical-contracting/" target="_blank"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+</footer>
+
+<div class="floating-actions">
+  <a href="https://wa.me/+971569715354" target="_blank" class="fab-btn fab-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+  <a href="tel:+97125622877" class="fab-btn fab-phone"><i class="fas fa-phone"></i></a>
+  <a href="mailto:sales@powdercoating.ae" class="fab-btn fab-email"><i class="fas fa-envelope"></i></a>
+</div>
+<button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+
+<script src="app.js"></script>
+<script>
+// Lightbox integration — extends gallery init from app.js
+document.addEventListener('DOMContentLoaded', () => {
+  const lightbox = document.getElementById('lightbox');
+  const lbClose  = document.getElementById('lightboxClose');
+  const lbIcon   = document.getElementById('lightboxIcon');
+  const lbTitle  = document.getElementById('lightboxTitle');
+  const lbCat    = document.getElementById('lightboxCat');
+  const lbDesc   = document.getElementById('lightboxDesc');
+
+  const descs = {
+    'Steel Structures':       'Multi-layer epoxy + polyester topcoat for fabricated towers, skids, and frames. Sa 2.5 blasted, ASTM D7091 thickness verified.',
+    'Cable Trays':            'Full cable tray systems powder coated in RAL 7024 Graphite Grey. Up to 300 m²/day throughput for large infrastructure packages.',
+    'Electrical Enclosures':  'MCC panels and junction boxes coated to IP65 specification. Epoxy primer with polyester topcoat for indoor/outdoor environments.',
+    'Utility Equipment':      'Process skids, pump bases, and utility frames coated per project corrosion category. Batch documentation supplied.',
+    'Power Towers':           'Lattice towers and substations coated under TAQA (ADDC) approved procedures. Hot-dip galvanised + powder coating duplex system.',
+    'Pipe Supports':          'Carbon steel pipe supports and clamps: Sa 2.5 blast, zinc-rich primer, polyester topcoat. Salt-spray tested to ASTM B117.',
+    'Wheel Rims':             'Alloy wheel rims in custom RAL colours. Polyester powder — UV stable, chip resistant, vibrant finish.',
+    'Chassis Parts':          'Vehicle chassis and underbody components — epoxy primer + polyurethane topcoat for maximum abrasion resistance.',
+    'Roll Bars':              'Roll cage and protection bars in high-gloss or satin finishes. Tested for adhesion post-welding operations.',
+    'Custom Fabrication':     'Bespoke fabricated metalwork coated to client specification. Any RAL colour, any texture — gloss, matt, or wrinkle.',
+    'Architectural Metal':    'Curtain wall frames, canopies, and cladding components coated for long-term coastal atmosphere durability.',
+    'Garden Furniture':       'Mild steel outdoor furniture in satin and textured finishes. UV-stable polyester powders withstand UAE sun and humidity.',
+    'Lighting Fixtures':      'Street and decorative light poles and arms powder coated per municipality specification.',
+    'Staircase Railings':     'Balustrades and railings in architectural finishes — wrinkle, metallic, and solid RAL options available.',
+    'Security Gates':         'Heavy-duty gates and barriers coated with primer + topcoat for maximum corrosion protection.',
+    'Motorcycle Frames':      'Custom motorcycle frames and accessories — media blasted, epoxy primed, and finished in any RAL colour.',
+  };
+
+  const catLabels = {
+    industrial: 'Industrial Coating',
+    automotive:  'Automotive Coating',
+    custom:      'Custom Coating',
+    decor:       'Architectural / Decor',
+  };
+
+  window.openLightbox = function(item) {
+    lbIcon.style.background = `linear-gradient(135deg, ${item.color} 0%, ${item.accent}66 100%)`;
+    lbIcon.style.border = `1px solid ${item.accent}55`;
+    lbIcon.innerHTML = `<i class="fas ${item.icon}" style="color: ${item.accent};"></i>`;
+    lbTitle.textContent = item.label;
+    lbCat.textContent   = catLabels[item.cat] || item.cat;
+    lbDesc.textContent  = descs[item.label] || 'High-quality powder coating finish. Contact us for technical specifications and lead time.';
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  lbClose.addEventListener('click', close);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  function close() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+</script>
+</body>
+</html>

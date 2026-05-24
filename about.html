@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | Powder Coating® General Contracting — Abu Dhabi</title>
+  <meta name="description" content="20+ years of ISO-aligned powder coating expertise. Approved by TAQA (ADDC) and Civil Defence. Based in Musaffah, Abu Dhabi." />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root) { animation: fade-out 0.3s ease; }
+    ::view-transition-new(root) { animation: fade-in  0.3s ease; }
+    @keyframes fade-out { to   { opacity: 0; transform: translateY(-10px); } }
+    @keyframes fade-in  { from { opacity: 0; transform: translateY(10px);  } }
+
+    .timeline-item {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+      align-items: flex-start;
+    }
+    .timeline-dot {
+      min-width: 44px;
+      height: 44px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+    .value-item {
+      display: flex;
+      gap: 1.2rem;
+      padding: 1.2rem;
+      border-radius: var(--radius-md);
+      background: var(--bg-glass-light);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 1rem;
+      transition: border-color var(--transition-smooth), transform var(--transition-smooth);
+    }
+    .value-item:hover {
+      border-color: var(--primary);
+      transform: translateX(6px);
+    }
+    .value-icon {
+      min-width: 48px; height: 48px;
+      background: rgba(185,28,28,0.15);
+      border: 1px solid rgba(185,28,28,0.3);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary-light);
+      font-size: 1.2rem;
+    }
+    .cert-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 28px;
+      background: var(--bg-glass-light);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      margin: 0.5rem;
+      transition: all var(--transition-smooth);
+    }
+    .cert-badge:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-3px);
+    }
+    .cert-badge i { font-size: 1.6rem; color: var(--primary-light); }
+  </style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <img src="logo.png" alt="PC Logo" class="preloader-logo" />
+    <div class="preloader-bar"><div class="preloader-progress" id="preloaderProgress"></div></div>
+    <span class="preloader-text">Loading…</span>
+  </div>
+</div>
+
+<nav class="main-nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="logo.png" alt="Powder Coating® Logo" /></a>
+    <div class="nav-links">
+      <a href="index.html"    class="nav-link">Home</a>
+      <a href="about.html"    class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="gallery.html"  class="nav-link">Gallery</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </div>
+    <a href="https://wa.me/+971569715354" target="_blank" class="nav-cta">
+      <span>Get A Quote</span><i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <div class="mobile-menu-content">
+    <a href="index.html"    class="mobile-link">Home</a>
+    <a href="about.html"    class="mobile-link">About</a>
+    <a href="services.html" class="mobile-link">Services</a>
+    <a href="gallery.html"  class="mobile-link">Gallery</a>
+    <a href="contact.html"  class="mobile-link">Contact</a>
+    <a href="https://wa.me/+971569715354" target="_blank" class="mobile-cta">Get A Quote <i class="fa-brands fa-whatsapp"></i></a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="container">
+    <nav class="breadcrumb"><a href="index.html">Home</a> / <span>About</span></nav>
+    <h1 class="page-hero-title">About Us</h1>
+    <p class="page-hero-subtitle">20+ years of industrial coating excellence — from Musaffah to the UAE.</p>
+  </div>
+</div>
+
+<!-- ABOUT MAIN -->
+<div class="about-main" style="padding: 80px 0;">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-left" data-aos="fade-right">
+        <div class="about-img-wrapper">
+          <div class="about-img-placeholder large">
+            <i class="fas fa-tools"></i>
+            <span>Our Expert Team</span>
+          </div>
+          <div class="about-years-badge">
+            <i class="fas fa-cogs"></i>
+            <div><span class="counter" data-target="20">0</span>+ Years</div>
+            <small>Industry Experience</small>
+          </div>
+        </div>
+      </div>
+      <div class="about-right" data-aos="fade-left">
+        <span class="section-tag">About Us</span>
+        <h2 class="section-heading">Committed to Excellence in Powder Coating®</h2>
+        <p>Powder Coating® General Contracting LLC is a leading industrial coating, sandblasting, and painting company based at I-CAD Industrial Area, Musaffah, Abu Dhabi — approved by TAQA (ADDC) and Civil Defence.</p>
+        <p style="margin-top: 1rem; color: var(--text-secondary);">Founded with a simple vision — to deliver superior coating solutions with unwavering commitment to quality — we proudly serve power & utility, oil & gas, infrastructure, and steel fabrication clients across the UAE.</p>
+        <p style="margin-top: 1rem; color: var(--text-secondary);">We are a certified applicator for National Paints PE &amp; PA 1000 Series, reinforcing our commitment to recognized industry standards. Every project is backed by documented quality control and ASTM-aligned testing.</p>
+
+        <div class="mission-vision-grid" style="margin-top: 2rem;">
+          <div class="mv-card">
+            <div class="mv-icon"><i class="fas fa-shield-alt"></i></div>
+            <h3>Our Mission</h3>
+            <p>To deliver exceptional coating services that enhance the aesthetics and longevity of your steel assets — on time, on spec.</p>
+          </div>
+          <div class="mv-card">
+            <div class="mv-icon"><i class="fas fa-eye"></i></div>
+            <h3>Our Vision</h3>
+            <p>To be the UAE's most trusted industrial coating partner — known for precision, reliability, and documented excellence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="stats-bar" style="padding: 50px 0;">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number"><span class="counter" data-target="20">0</span>+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><span class="counter" data-target="500">0</span>+</div>
+        <div class="stat-label">Projects Completed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><span class="counter" data-target="3">0</span> t/d</div>
+        <div class="stat-label">Daily Blasting Capacity</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><span class="counter" data-target="350">0</span> m²</div>
+        <div class="stat-label">Max Daily Coating Output</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VALUES & PROCESS -->
+<div class="values-process-section" style="padding: 80px 0; background: var(--bg-card);">
+  <div class="container">
+    <div class="vp-grid">
+      <div class="vp-col" data-aos="fade-right">
+        <h2 class="section-heading">Our Values</h2>
+        <div class="value-list" style="margin-top: 2rem;">
+          <div class="value-item">
+            <div class="value-icon"><i class="fas fa-gem"></i></div>
+            <div><h4 style="margin-bottom: 4px;">Quality First</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Meticulous attention to detail at every stage — from surface prep to final QC sign-off.</p></div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+            <div><h4 style="margin-bottom: 4px;">Innovation</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Staying at the forefront of powder chemistry and application technology advancements.</p></div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon"><i class="fas fa-heart"></i></div>
+            <div><h4 style="margin-bottom: 4px;">Customer Satisfaction</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">We work closely with clients to meet schedule, spec, and budget — every time.</p></div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon"><i class="fas fa-handshake"></i></div>
+            <div><h4 style="margin-bottom: 4px;">Integrity</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Transparent communication, documented processes, and a guarantee on every project.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="vp-col" data-aos="fade-left">
+        <h2 class="section-heading">Our Process</h2>
+        <div class="process-timeline" style="margin-top: 2rem;">
+          <div class="timeline-item"><div class="timeline-dot">1</div><div><h4>Consultation & Specification</h4><p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">Understanding substrate, corrosion category, color, and schedule requirements.</p></div></div>
+          <div class="timeline-item"><div class="timeline-dot">2</div><div><h4>Sandblasting to Sa 2.5</h4><p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">Steel-grit blasting with 50–75 μm anchor profile in our 24 m² blast booth.</p></div></div>
+          <div class="timeline-item"><div class="timeline-dot">3</div><div><h4>Chemical Pre-Treatment</h4><p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">Phosphate conversion, rinse, and oven drying — documented stage by stage.</p></div></div>
+          <div class="timeline-item"><div class="timeline-dot">4</div><div><h4>Powder Application</h4><p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">Electrostatic spray of epoxy, polyester, or hybrid powder — even coverage on all geometries.</p></div></div>
+          <div class="timeline-item"><div class="timeline-dot">5</div><div><h4>Curing & Inspection</h4><p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">Heat cure + DFT gauge, cross-cut adhesion, and salt-spray testing before delivery.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CERTIFICATIONS -->
+<div class="certification-section" style="padding: 80px 0; text-align: center;">
+  <div class="container" data-aos="fade-up">
+    <span class="section-tag">Approved & Certified</span>
+    <h2 class="section-heading" style="margin-top: 0.5rem;">Recognized by the Industry</h2>
+    <p class="section-desc" style="max-width: 600px; margin: 0 auto 3rem;">Powder Coating® General Contracting LLC holds approvals from leading UAE authorities and is a certified applicator for premium powder brands.</p>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0;">
+      <div class="cert-badge"><i class="fas fa-bolt"></i><div style="text-align:left;"><strong>TAQA (ADDC) Approved</strong><br/><small style="color: var(--text-muted);">Abu Dhabi Distribution Company</small></div></div>
+      <div class="cert-badge"><i class="fas fa-fire-extinguisher"></i><div style="text-align:left;"><strong>Civil Defence Approved</strong><br/><small style="color: var(--text-muted);">UAE Civil Defence Authority</small></div></div>
+      <div class="cert-badge"><i class="fas fa-certificate"></i><div style="text-align:left;"><strong>National Paints Certified</strong><br/><small style="color: var(--text-muted);">PE & PA 1000 Series Applicator</small></div></div>
+      <div class="cert-badge"><i class="fas fa-check-double"></i><div style="text-align:left;"><strong>ISO-Aligned QC</strong><br/><small style="color: var(--text-muted);">ASTM D3359 · D7091 · B117</small></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div style="background: linear-gradient(135deg, var(--primary-dark), var(--primary)); padding: 60px 0; text-align: center;">
+  <div class="container">
+    <h2 style="font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800; margin-bottom: 1rem;">Ready to work with us?</h2>
+    <a href="contact.html" class="btn-primary" style="background:#fff; color: var(--primary);">
+      <span>Get in Touch</span><i class="fas fa-arrow-right"></i>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="main-footer" id="mainFooter">
+  <div class="footer-top-section">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-about">
+          <img src="logo.png" alt="Powder Coating® Logo" class="footer-logo" />
+          <p>Powder Coating® GC LLC — Abu Dhabi's trusted industrial coating partner since 2004.</p>
+        </div>
+        <div class="footer-col"><h4>Quick Links</h4><ul>
+          <li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Our Services</a></li><li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Our Services</h4><ul>
+          <li><a href="services.html">Powder Coating®</a></li>
+          <li><a href="services.html">Industrial Sandblasting</a></li>
+          <li><a href="services.html">Steel Structure Coating</a></li>
+          <li><a href="services.html">Industrial Painting</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Contact Info</h4>
+          <div class="footer-contact-item"><i class="fas fa-location-dot"></i><a href="https://maps.app.goo.gl/DVZktcPEaXhX9c9H7" target="_blank">I-CAD Musaffah, Abu Dhabi</a></div>
+          <div class="footer-contact-item"><i class="fa-brands fa-whatsapp"></i><a href="https://wa.me/+971569715354" target="_blank">+971 56 971 5 354</a></div>
+          <div class="footer-contact-item"><i class="fas fa-phone"></i><a href="tel:+97125622877">+971 2 562 2 877</a></div>
+          <div class="footer-contact-item"><i class="fas fa-envelope"></i><a href="mailto:sales@powdercoating.ae">sales@powdercoating.ae</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="container">
+    <span>© 2024 Powder Coating® General Contracting LLC. All rights reserved.</span>
+    <div class="footer-socials"><a href="https://www.linkedin.com/company/powder-coating-mechanical-contracting/" target="_blank"><i class="fab fa-linkedin-in"></i></a></div>
+  </div></div>
+</footer>
+
+<div class="floating-actions">
+  <a href="https://wa.me/+971569715354" target="_blank" class="fab-btn fab-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+  <a href="tel:+97125622877" class="fab-btn fab-phone"><i class="fas fa-phone"></i></a>
+  <a href="mailto:sales@powdercoating.ae" class="fab-btn fab-email"><i class="fas fa-envelope"></i></a>
+</div>
+<button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+<script src="app.js"></script>
+</body>
+</html>
